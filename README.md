@@ -90,10 +90,6 @@ python3 tools/make_example.py  # erzeugt die erfundenen Beispieldaten neu (openp
 
 Der Quellcode liegt als ES-Module in `src/`; `tools/build.mjs` setzt sie mit Stylesheet, Schriften und Beispieldaten zu einer Datei zusammen und berechnet die Hashes für die Content-Security-Policy.
 
-## English
-
-Exitcheck analyses an RVTools export entirely in the browser and compares VMware (Broadcom per-core subscription) with Proxmox VE and Hyper-V, lists migration blockers per VM and estimates the effort. No data leaves the machine: the page is a single HTML file whose Content-Security-Policy forbids all network connections. The interface is in German.
-
 ## Lizenz
 
 MIT – siehe [LICENSE](LICENSE). Die Schrift Barlow steht unter der SIL Open Font License ([assets/fonts/OFL.txt](assets/fonts/OFL.txt)).
