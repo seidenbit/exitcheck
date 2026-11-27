@@ -84,6 +84,7 @@ function buildVm(row, index) {
     vcenter: str(pick(row, 'VI SDK Server')),
     primaryIp: str(pick(row, 'Primary IP Address')),
     disks: [],
+    partitions: [],
     snapshots: [],
     usb: [],
     cds: [],
@@ -136,6 +137,9 @@ function findGaps(tables) {
     ['vUSB', null, 'Durchgereichte USB-Geräte (z. B. Lizenzdongles) können nicht erkannt werden.'],
     ['vDatastore', null, 'vSAN-Datastores können nicht erkannt werden.'],
     ['vNetwork', null, 'Netzwerke und durchgereichte Netzwerkkarten können nicht erkannt werden.'],
+    ['vHealth', null, 'Möglicherweise verwaiste Dateien können nicht erkannt werden.'],
+    ['vCD', null, 'Eingelegte ISO-Abbilder können nicht erkannt werden.'],
+    ['vPartition', null, 'Der Platzgewinn durch Thin-Disks lässt sich nicht schätzen.'],
     ['vInfo', ['vTPM', 'Has vTPM', 'TPM'], 'Der Export enthält keine vTPM-Angabe – bei Windows 11 und Server 2025 prüfen, ob ein vTPM und BitLocker im Einsatz sind.'],
     ['vInfo', ['VM Encryption', 'Encryption', 'Encrypted'], 'Der Export enthält keine Angabe zur VM-Verschlüsselung – verschlüsselte VMs bitte von Hand prüfen.'],
   ];
@@ -160,6 +164,7 @@ export function buildModel(tables) {
       label: str(pick(row, 'Disk', 'Label')),
       capacityMiB: num(pick(row, 'Capacity MiB', 'Capacity MB')) ?? 0,
       raw: bool(pick(row, 'Raw')) === true,
+      thin: bool(pick(row, 'Thin')),
       rawMode: str(pick(row, 'Raw Comp. Mode', 'Raw Comp Mode', 'Compatibility Mode')),
       mode: str(pick(row, 'Disk Mode')),
       sharing: str(pick(row, 'Sharing mode', 'Sharing', 'Disk Sharing')),
@@ -167,6 +172,14 @@ export function buildModel(tables) {
       controller: str(pick(row, 'Controller')),
       datastore: datastoreOfPath(diskPath),
       path: diskPath,
+    });
+  });
+  attach(vms, t('vPartition'), (vm, row) => {
+    const capacityMiB = num(pick(row, 'Capacity MiB', 'Capacity MB')) ?? 0;
+    const consumedMiB = num(pick(row, 'Consumed MiB', 'Consumed MB'));
+    vm.partitions.push({
+      capacityMiB,
+      freeMiB: num(pick(row, 'Free MiB', 'Free MB')) ?? (consumedMiB !== null ? Math.max(0, capacityMiB - consumedMiB) : 0),
     });
   });
   attach(vms, t('vSnapshot'), (vm, row) => {
@@ -210,6 +223,7 @@ export function buildModel(tables) {
     type: str(pick(row, 'Type')),
     capacityMiB: num(pick(row, 'Capacity MiB', 'Capacity MB')) ?? 0,
     inUseMiB: num(pick(row, 'In Use MiB', 'In Use MB')) ?? 0,
+    vmCount: num(pick(row, '# VMs', '# VMs total')),
     vcenter: str(pick(row, 'VI SDK Server')),
   })).filter((d) => d.name);
   const licenses = t('vLicense').rows.map((row) => ({
@@ -220,6 +234,17 @@ export function buildModel(tables) {
     used: num(pick(row, 'Used')),
     expiration: str(pick(row, 'Expiration Date')),
   })).filter((l) => l.name);
+
+  // Hinweise aus dem Blatt vHealth, z. B. „Possibly a Zombie vmdk file! Please check.“
+  const health = t('vHealth').rows.map((row) => {
+    const name = str(pick(row, 'Name', 'Entity'));
+    return {
+      name,
+      message: str(pick(row, 'Message')),
+      type: str(pick(row, 'Message type', 'Type')),
+      datastore: datastoreOfPath(name),
+    };
+  }).filter((h) => h.name || h.message);
 
   const metaRow = t('vMetaData').rows[0] ?? {};
   const sources = t('vSource').rows.map((row) => ({
@@ -232,6 +257,7 @@ export function buildModel(tables) {
     hosts,
     datastores,
     licenses,
+    health,
     sources,
     meta: {
       rvtoolsVersion: str(pick(metaRow, 'RVTools version', 'RVTools major version')),
