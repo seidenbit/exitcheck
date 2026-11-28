@@ -6,6 +6,8 @@ Alle nennenswerten Änderungen an Exitcheck. Versionen folgen [Semantic Versioni
 
 ### Geändert
 
+- Kontrast: Die Schilder „Mehraufwand“ und „bleibt zurück“ sind im hellen Design dunkler und erreichen jetzt mindestens 4,5:1 (vorher 4,2:1 bzw. 3,5:1).
+- Tastatur: Waagrecht scrollende Tabellen im Bericht lassen sich mit Tab erreichen und mit den Pfeiltasten scrollen. Screenreader nennen sie mit ihrer Überschrift.
 - Bericht auf dem Handy: „Namen ausblenden“, „Drucken“, „Als CSV speichern“ und „Andere Datei“ liegen hinter „Optionen“, die Leiste oben ist dadurch nur noch halb so hoch. Ab 701 px Breite bleibt alles wie bisher sichtbar.
 - Bericht auf dem Handy: Beim Scrollen erscheint unten rechts „↑ Abschnitte“ und springt zurück zur Abschnittsliste.
 - Alle Preisannahmen und der Stundensatz stehen an einer Stelle (`src/prices.js`), jeweils mit Stand und Quelle. Die Vorgabewerte sind unverändert.
