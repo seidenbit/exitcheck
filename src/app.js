@@ -89,11 +89,25 @@ function applySizes(root) {
   for (const el of root.querySelectorAll('[data-grow]')) el.style.flexGrow = el.dataset.grow;
 }
 
+// Waagrecht scrollende Tabellen: per Tab erreichbar (Pfeiltasten scrollen) und mit eigenem Namen.
+function labelTables(root) {
+  const wraps = [...root.querySelectorAll('.table-wrap')];
+  for (const [i, el] of wraps.entries()) {
+    const sub = el.previousElementSibling?.matches('h3, h4') ? el.previousElementSibling : null;
+    const head = sub || el.closest('section')?.querySelector('h2');
+    el.tabIndex = 0;
+    el.setAttribute('role', 'region');
+    const name = head ? head.textContent.trim() : 'Tabelle';
+    el.setAttribute('aria-label', `${name} – Tabelle${!sub && wraps.length > 1 ? ` ${i + 1}` : ''}`);
+  }
+}
+
 function setHtml(id, content) {
   const el = document.getElementById(id);
   if (!el) return;
   el.innerHTML = String(content);
   applySizes(el);
+  labelTables(el);
 }
 
 function numberField(key, label, { step = 1, min = 0, max, note } = {}) {

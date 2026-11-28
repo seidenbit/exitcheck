@@ -16,9 +16,10 @@
   --tape: #ffd21f;
   --tape-ink: #17212b;
   --ok: #23774a;
-  --effort: #b85400;
+  --effort: #9c4700; /* 5,4:1 auf --effort-bg, vorher #b85400 mit 4,2:1 */
   --block: #b3261e;
   --skip: #6f7c88;
+  --skip-text: #56616b; /* Schrift auf --skip-bg: 5,2:1 */
   --note: #2a5d8f;
   --focus: #1f6feb;
   --ok-bg: #e3f1e9;
@@ -44,6 +45,7 @@
     --effort: #f0954a;
     --block: #f07067;
     --skip: #94a1ad;
+    --skip-text: #94a1ad;
     --note: #74a8dd;
     --focus: #7fb0ff;
     --ok-bg: #173325;
@@ -56,7 +58,7 @@
 }
 :root[data-theme="dark"] {
   --ink: #e6ebef; --ink-soft: #a9b5c0; --paper: #12181e; --panel: #1a222a; --line: #2d3843;
-  --line-strong: #4d5b68; --ok: #5cc28a; --effort: #f0954a; --block: #f07067; --skip: #94a1ad;
+  --line-strong: #4d5b68; --ok: #5cc28a; --effort: #f0954a; --block: #f07067; --skip: #94a1ad; --skip-text: #94a1ad;
   --note: #74a8dd; --focus: #7fb0ff; --ok-bg: #173325; --effort-bg: #3a2512; --block-bg: #3d1a18;
   --skip-bg: #232c35; --note-bg: #182a3c; color-scheme: dark;
 }
@@ -296,7 +298,7 @@ tbody tr:last-child td { border-bottom: 0; }
 .tag.ok { color: var(--ok); background: var(--ok-bg); }
 .tag.effort { color: var(--effort); background: var(--effort-bg); }
 .tag.block { color: var(--block); background: var(--block-bg); }
-.tag.skip { color: var(--skip); background: var(--skip-bg); }
+.tag.skip { color: var(--skip-text, var(--skip)); background: var(--skip-bg); }
 .tag.note { color: var(--note); background: var(--note-bg); }
 
 /* Stolpersteine */
