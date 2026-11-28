@@ -20,6 +20,8 @@ jobs:
           node-version: 22
       - name: Check package, application and tag versions
         run: node tools/check-version.mjs
+      - name: Lint
+        run: npm ci && npm run lint
       - name: Tests mit Abdeckung
         run: npm run coverage
       - name: Alter der Preisannahmen

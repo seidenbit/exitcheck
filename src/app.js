@@ -511,7 +511,7 @@ function exportCsv() {
       findings.filter((f) => f.level !== 'note').map((f) => t(f.fix)).join(' | '),
     ]);
   }
-  download(`﻿${lines.map((row) => row.map(csvCell).join(';')).join('\r\n')}`, `${APP.slug}-${state.settings.target}.csv`);
+  download(`\uFEFF${lines.map((row) => row.map(csvCell).join(';')).join('\r\n')}`, `${APP.slug}-${state.settings.target}.csv`);
 }
 
 function download(text, fileName) {
