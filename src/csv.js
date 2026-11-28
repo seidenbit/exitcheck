@@ -6,7 +6,7 @@ export function decodeText(bytes) {
   const utf8 = new TextDecoder('utf-8', { fatal: false }).decode(bytes);
   // Ungültiges UTF-8 deutet auf Windows-1252 hin (ältere Exporte)
   if (utf8.includes('�')) return new TextDecoder('windows-1252').decode(bytes);
-  return utf8.replace(/^﻿/, '');
+  return utf8.replace(/^\uFEFF/, '');
 }
 
 function detectDelimiter(firstLine) {

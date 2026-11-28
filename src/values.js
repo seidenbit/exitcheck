@@ -3,7 +3,7 @@
 /** Vergleichsschlüssel für Spaltenköpfe: nur Kleinbuchstaben und Ziffern. */
 export function looseKey(header) {
   return String(header ?? '')
-    .replace(/^﻿/, '')
+    .replace(/^\uFEFF/, '')
     .toLowerCase()
     .replace(/[^a-z0-9]/g, '');
 }

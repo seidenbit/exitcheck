@@ -79,7 +79,7 @@ for (const secret of ['sql01', 'esx01.muster.local', 'vcenter.muster.local', 'NF
 // CSV
 const [download] = await Promise.all([page.waitForEvent('download'), page.click('#csv')]);
 const csv = readFileSync(await download.path(), 'utf8');
-assert.match(csv, /^﻿VM;Status;Betriebssystem/);
+assert.match(csv, /^\uFEFFVM;Status;Betriebssystem/);
 assert.ok(!csv.includes('sql01'));
 const [cleanupHidden] = await Promise.all([page.waitForEvent('download'), page.click('#cleanup-csv')]);
 const cleanupHiddenCsv = readFileSync(await cleanupHidden.path(), 'utf8');
