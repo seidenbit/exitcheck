@@ -19,10 +19,15 @@
         <button type="button" data-target="proxmox" aria-pressed="true">Proxmox VE</button>
         <button type="button" data-target="hyperv" aria-pressed="false">Hyper-V</button>
       </div>
-      <label class="check"><input type="checkbox" id="anonymize"> Namen ausblenden</label>
-      <button type="button" class="btn" id="print">Drucken</button>
-      <button type="button" class="btn" id="csv">Als CSV speichern</button>
-      <button type="button" class="btn" id="again">Andere Datei</button>
+      <details class="toolmenu" id="toolmenu">
+        <summary class="btn">Optionen</summary>
+        <div class="toolmenu-items">
+          <label class="check"><input type="checkbox" id="anonymize"> Namen ausblenden</label>
+          <button type="button" class="btn" id="print">Drucken</button>
+          <button type="button" class="btn" id="csv">Als CSV speichern</button>
+          <button type="button" class="btn" id="again">Andere Datei</button>
+        </div>
+      </details>
     </div>
   </div>
 </header>

@@ -114,6 +114,23 @@ button, select, input { font: inherit; color: inherit; }
 }
 .toolbar { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin-left: auto; }
 .toolbar[hidden] { display: none; }
+/* Auf schmalen Bildschirmen liegen Namen ausblenden, Drucken, CSV und Andere Datei hinter „Optionen“ –
+   die Leiste nimmt sonst ein Viertel des Handybildschirms ein. Breit sind sie immer offen (app.js). */
+.toolmenu > summary { list-style: none; cursor: pointer; }
+.toolmenu > summary::-webkit-details-marker { display: none; }
+.toolmenu > summary::after { content: ' ▾'; }
+.toolmenu[open] > summary::after { content: ' ▴'; }
+.toolmenu-items { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+@media (max-width: 700px) {
+  .toolmenu[open] .toolmenu-items { margin-top: 10px; }
+}
+@media (min-width: 701px) {
+  .toolmenu { display: contents; }
+  .toolmenu > summary { display: none; }
+}
+/* „Nach oben“ im langen Bericht auf dem Handy */
+.to-top { position: fixed; right: 16px; bottom: 16px; z-index: 5; min-height: 44px; box-shadow: 0 4px 14px rgba(0, 0, 0, .18); }
+.to-top[hidden] { display: none; }
 
 .segmented { display: inline-flex; border: 1px solid var(--line-strong); border-radius: var(--radius); overflow: hidden; }
 .segmented button {
