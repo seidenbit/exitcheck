@@ -705,6 +705,28 @@ function init() {
     }
   });
 
+  // Optionen der Werkzeugleiste: breit immer offen, schmal hinter einem Knopf.
+  const wide = window.matchMedia('(min-width: 701px)');
+  const syncToolmenu = () => { $('#toolmenu').open = wide.matches; };
+  wide.addEventListener('change', syncToolmenu);
+  syncToolmenu();
+
+  // „Nach oben“: Der Bericht ist auf dem Handy sehr lang, die Abschnittsliste steht nur oben.
+  const toTop = document.createElement('button');
+  toTop.type = 'button';
+  toTop.className = 'btn to-top no-print';
+  toTop.textContent = '↑ Abschnitte';
+  toTop.hidden = true;
+  toTop.addEventListener('click', () => {
+    window.scrollTo(0, 0);
+    const toc = document.querySelector('.toc a');
+    if (toc) toc.focus({ preventScroll: true });
+  });
+  document.body.append(toTop);
+  window.addEventListener('scroll', () => {
+    toTop.hidden = wide.matches || $('#report').hidden || window.scrollY < 1200;
+  }, { passive: true });
+
   // Beim Drucken alle aufklappbaren Teile zeigen
   const reopened = [];
   window.addEventListener('beforeprint', () => {

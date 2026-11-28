@@ -6,6 +6,8 @@ Alle nennenswerten Änderungen an Exitcheck. Versionen folgen [Semantic Versioni
 
 ### Geändert
 
+- Bericht auf dem Handy: „Namen ausblenden“, „Drucken“, „Als CSV speichern“ und „Andere Datei“ liegen hinter „Optionen“, die Leiste oben ist dadurch nur noch halb so hoch. Ab 701 px Breite bleibt alles wie bisher sichtbar.
+- Bericht auf dem Handy: Beim Scrollen erscheint unten rechts „↑ Abschnitte“ und springt zurück zur Abschnittsliste.
 - Alle Preisannahmen und der Stundensatz stehen an einer Stelle (`src/prices.js`), jeweils mit Stand und Quelle. Die Vorgabewerte sind unverändert.
 - Der Bericht nennt bei allen Vorgaben den Stand und listet unter „Grenzen der Prüfung“ die Quellen der Preisannahmen.
 
